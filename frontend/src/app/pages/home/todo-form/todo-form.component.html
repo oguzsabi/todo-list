@@ -1,0 +1,77 @@
+<mat-card class="todo-card" [class.my-0]="isDialog">
+  <mat-card-content #todoCard [class.pb-0]="!isExpanded">
+    <div (click)="expandForm()" [class.expanded]="isExpanded">
+      <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todo-form">
+        <mat-form-field appearance="outline" class="form-input">
+          <input
+            matInput
+            formControlName="title"
+            placeholder="{{ isExpanded ? 'Title*' : 'Create a To-Do item' }}"
+            required
+            #titleInput
+          />
+          <mat-error *ngIf="todoForm.get('title')?.hasError('required')">
+            Title is required
+          </mat-error>
+        </mat-form-field>
+
+        <ng-container *ngIf="isExpanded">
+          <mat-form-field appearance="outline" class="form-input">
+            <textarea
+              matInput
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-input">
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="due_date"
+              placeholder="Due Date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker-toggle
+              *ngIf="todoForm.get('due_date')?.value"
+              matSuffix
+              (click)="clearStartDate()"
+            >
+              <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <div class="row">
+            <div *ngIf="isDialog" class="col">
+              <button
+                mat-button
+                type="button"
+                class="d-block form-button"
+                (click)="onCancel()"
+              >
+                Cancel
+              </button>
+            </div>
+            <div class="col">
+              <button
+                mat-flat-button
+                color="primary"
+                type="submit"
+                [disabled]="
+                  !todoForm.valid || todoForm.get('title')?.value === ''
+                "
+                class="form-button"
+              >
+                {{ isDialog ? "Save" : "Create To Do" }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

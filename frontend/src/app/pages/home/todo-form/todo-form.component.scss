@@ -1,0 +1,22 @@
+.todo-card {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0;
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  width: 100%;
+  margin-bottom: 0;
+  border: none;
+}
+
+.form-button {
+  align-self: flex-end;
+  margin-bottom: 8px;
+  width: 100%;
+}

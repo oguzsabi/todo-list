@@ -1,0 +1,119 @@
+<mat-card class="todo-list-card">
+  <mat-card-content>
+    <div class="list-controls">
+      <mat-form-field
+        appearance="outline"
+        class="search-input"
+        subscriptSizing="dynamic"
+      >
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="searchTodos()"
+          placeholder="Search titles..."
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <div class="row">
+        <div class="col">
+          <mat-form-field
+            appearance="outline"
+            class="filter-select"
+            subscriptSizing="dynamic"
+          >
+            <mat-select
+              [(ngModel)]="filterStatus"
+              (ngModelChange)="applyStatusFilter()"
+              placeholder="Filter by status"
+            >
+              <mat-option>All</mat-option>
+              <mat-option value="active">Active</mat-option>
+              <mat-option value="completed">Completed</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field
+            appearance="outline"
+            class="filter-select"
+            subscriptSizing="dynamic"
+          >
+            <mat-select
+              [(ngModel)]="orderBy"
+              (ngModelChange)="applyOrderBy()"
+              placeholder="Order by"
+            >
+              <mat-option>None</mat-option>
+              <mat-option value="title">Title: A-Z</mat-option>
+              <mat-option value="-title">Title: Z-A</mat-option>
+              <mat-option value="-due_date">Due Date: Newest</mat-option>
+              <mat-option value="due_date">Due Date: Oldest</mat-option>
+              <mat-option value="-completed">Completed</mat-option>
+              <mat-option value="completed">Active</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button mat-icon-button (click)="toggleExpandAll()">
+            <mat-icon>{{
+              allExpanded ? "unfold_less" : "unfold_more"
+            }}</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <mat-list class="todo-list">
+      <mat-progress-bar
+        *ngIf="homeStore.isLoading()"
+        class="loading-indicator"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      <mat-list-item *ngFor="let todo of todos" class="todo-item">
+        <div class="todo-item-content">
+          <div class="todo-item-main">
+            <mat-checkbox
+              class="todo-item-checkbox"
+              [checked]="todo.completed"
+              (change)="toggleComplete(todo)"
+              color="primary"
+            >
+              <span [class.completed]="todo.completed">{{ todo.title }}</span>
+            </mat-checkbox>
+          </div>
+          <div
+            *ngIf="allExpanded && (todo.description || todo.due_date)"
+            class="todo-details"
+            [class.completed-details]="todo.completed"
+          >
+            <div *ngIf="todo.description" class="row">
+              <div class="col-12">
+                <span><strong>Description</strong></span>
+              </div>
+              <div class="col-12 description">
+                {{ todo.description }}
+              </div>
+            </div>
+            <div *ngIf="todo.due_date" class="row">
+              <div class="col-12">
+                <span><strong>Due Date</strong></span>
+              </div>
+              <div class="col-12">
+                {{ todo.due_date | date : "mediumDate" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="todo-item-actions">
+          <button mat-icon-button (click)="openEditDialog(todo)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteTodo(todo.id!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
