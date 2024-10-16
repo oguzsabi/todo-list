@@ -1,4 +1,4 @@
-<mat-card class="todo-list-card">
+<mat-card *ngIf="todos.length > 0" class="todo-list-card">
   <mat-card-content>
     <div class="list-controls">
       <mat-form-field
