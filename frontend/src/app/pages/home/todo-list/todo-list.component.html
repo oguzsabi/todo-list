@@ -1,4 +1,4 @@
-<mat-card *ngIf="todos.length > 0" class="todo-list-card">
+<mat-card class="todo-list-card">
   <mat-card-content>
     <div class="list-controls">
       <mat-form-field
@@ -70,6 +70,9 @@
         class="loading-indicator"
         mode="indeterminate"
       ></mat-progress-bar>
+      <div *ngIf="!todos.length">
+        <p class="no-todos">No To-Dos found.</p>
+      </div>
       <mat-list-item *ngFor="let todo of todos" class="todo-item">
         <div class="todo-item-content">
           <div class="todo-item-main">
