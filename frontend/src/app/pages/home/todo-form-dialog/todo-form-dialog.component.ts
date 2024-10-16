@@ -19,7 +19,7 @@ import { HomeStore } from '../home.store';
     TodoFormComponent
   ],
   template: `
-    <h2 mat-dialog-title class="mb-0">Edit Todo</h2>
+    <h2 mat-dialog-title class="mb-0">Edit To-Do</h2>
     <app-todo-form [todo]="data.todo" [isDialog]="true" (formSubmit)="onFormSubmit($event)" (formCancel)="onCancel()"></app-todo-form>
   `,
 })
